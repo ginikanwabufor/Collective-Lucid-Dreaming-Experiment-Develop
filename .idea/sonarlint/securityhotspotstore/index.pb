@@ -15,3 +15,5 @@ Q
 !tests/experiment-protocol.test.ts,5/c/5c592bcea1e5015fbb58ef7aa3c2e916f571990d
 I
 tests/marketplace.test.ts,9/5/95227c39b395fbc864f16d5183388b838084c883
+I
+tests/lucid-token.test.ts,a/1/a15c1ca68c0bcf1d8b681f334836a16197629de9
