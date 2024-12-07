@@ -7,3 +7,5 @@ R
 "contracts/experiment-protocol.clar,3/6/3617c06100518588255e1bb1a8d8b407f47f9c96
 J
 contracts/lucid-token.clar,b/2/b252fd42245293d24c1725e3e2a32093d6922ac4
+J
+contracts/marketplace.clar,e/2/e2a45a6789a1d0483fc133fffb49ff482a2e137b

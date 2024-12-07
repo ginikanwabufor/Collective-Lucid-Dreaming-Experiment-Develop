@@ -1,12 +1,5 @@
 ;; lucid-token contract
 
-(define-trait lucid-token-trait
-  (
-    (mint (principal uint) (response bool uint))
-    (transfer (uint principal principal) (response bool uint))
-  )
-)
-
 (define-fungible-token lucid-token)
 
 (define-constant contract-owner tx-sender)
@@ -32,6 +25,4 @@
 (define-read-only (get-total-supply)
   (ft-get-supply lucid-token)
 )
-
-(impl-trait .lucid-token.lucid-token-trait)
 
