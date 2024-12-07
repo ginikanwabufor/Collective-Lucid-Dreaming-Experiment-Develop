@@ -1,5 +1,6 @@
 # DreamSync: Decentralized Collective Lucid Dreaming Platform
 
+
 ## 🌙 Project Overview
 
 DreamSync is a pioneering blockchain-powered platform designed to revolutionize lucid dreaming research through collaborative, transparent, and scientifically rigorous methodologies. By combining blockchain technology, cryptographic security, and collective intelligence, we create a groundbreaking ecosystem for exploring consciousness and dream states.
