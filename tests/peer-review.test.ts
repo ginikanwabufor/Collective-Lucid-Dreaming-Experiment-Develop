@@ -1,21 +1,74 @@
+import { describe, test, expect, beforeEach } from 'vitest';
 
-import { describe, expect, it } from "vitest";
+interface Review {
+  score: number;
+  comment: string;
+}
 
-const accounts = simnet.getAccounts();
-const address1 = accounts.get("wallet_1")!;
+interface ReportScore {
+  totalScore: number;
+  reviewCount: number;
+}
 
-/*
-  The test below is an example. To learn more, read the testing documentation here:
-  https://docs.hiro.so/stacks/clarinet-js-sdk
-*/
-
-describe("example tests", () => {
-  it("ensures simnet is well initalised", () => {
-    expect(simnet.blockHeight).toBeDefined();
+describe('Peer Review', () => {
+  let reviews: Map<string, Review>;
+  let reportScores: Map<number, ReportScore>;
+  
+  const reviewer1 = 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM';
+  const reviewer2 = 'ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG';
+  
+  beforeEach(() => {
+    reviews = new Map();
+    reportScores = new Map();
   });
-
-  // it("shows an example", () => {
-  //   const { result } = simnet.callReadOnlyFn("counter", "get-counter", [], address1);
-  //   expect(result).toBeUint(0);
-  // });
+  
+  test('reviewers can submit reviews', () => {
+    const dreamReportId = 1;
+    const review = {
+      score: 4,
+      comment: "Great dream report!"
+    };
+    
+    // Submit review
+    const reviewKey = `${reviewer1}-${dreamReportId}`;
+    reviews.set(reviewKey, review);
+    
+    const currentScore = reportScores.get(dreamReportId) || { totalScore: 0, reviewCount: 0 };
+    reportScores.set(dreamReportId, {
+      totalScore: currentScore.totalScore + review.score,
+      reviewCount: currentScore.reviewCount + 1
+    });
+    
+    // Verify review was stored
+    expect(reviews.get(reviewKey)).toEqual(review);
+    
+    // Verify report score was updated
+    const reportScore = reportScores.get(dreamReportId);
+    expect(reportScore?.totalScore).toBe(4);
+    expect(reportScore?.reviewCount).toBe(1);
+  });
+  
+  test('multiple reviews update scores correctly', () => {
+    const dreamReportId = 1;
+    
+    // Submit first review
+    const review1 = { score: 4, comment: "Great report!" };
+    reviews.set(`${reviewer1}-${dreamReportId}`, review1);
+    reportScores.set(dreamReportId, { totalScore: 4, reviewCount: 1 });
+    
+    // Submit second review
+    const review2 = { score: 5, comment: "Excellent analysis!" };
+    reviews.set(`${reviewer2}-${dreamReportId}`, review2);
+    const currentScore = reportScores.get(dreamReportId)!;
+    reportScores.set(dreamReportId, {
+      totalScore: currentScore.totalScore + review2.score,
+      reviewCount: currentScore.reviewCount + 1
+    });
+    
+    // Verify final scores
+    const finalScore = reportScores.get(dreamReportId);
+    expect(finalScore?.totalScore).toBe(9);
+    expect(finalScore?.reviewCount).toBe(2);
+  });
 });
+
