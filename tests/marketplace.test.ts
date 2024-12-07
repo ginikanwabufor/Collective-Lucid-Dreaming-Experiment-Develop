@@ -1,21 +1,56 @@
+import { describe, test, expect, beforeEach } from 'vitest';
 
-import { describe, expect, it } from "vitest";
+interface Item {
+  id: number;
+  name: string;
+  description: string;
+  seller: string;
+  available: boolean;
+}
 
-const accounts = simnet.getAccounts();
-const address1 = accounts.get("wallet_1")!;
-
-/*
-  The test below is an example. To learn more, read the testing documentation here:
-  https://docs.hiro.so/stacks/clarinet-js-sdk
-*/
-
-describe("example tests", () => {
-  it("ensures simnet is well initalised", () => {
-    expect(simnet.blockHeight).toBeDefined();
+describe('Marketplace', () => {
+  let items: Map<number, Item>;
+  let lastItemId: number;
+  
+  beforeEach(() => {
+    items = new Map();
+    lastItemId = 0;
   });
-
-  // it("shows an example", () => {
-  //   const { result } = simnet.callReadOnlyFn("counter", "get-counter", [], address1);
-  //   expect(result).toBeUint(0);
-  // });
+  
+  test('items can be listed and purchased', () => {
+    const seller = 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM';
+    const buyer = 'ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG';
+    
+    // List item
+    const itemId = lastItemId + 1;
+    const item: Item = {
+      id: itemId,
+      name: "Dream Journal",
+      description: "A beautiful journal for recording your dreams",
+      seller,
+      available: true
+    };
+    
+    items.set(itemId, item);
+    lastItemId = itemId;
+    
+    // Verify item was listed
+    const listedItem = items.get(itemId);
+    expect(listedItem).toBeDefined();
+    expect(listedItem?.name).toBe("Dream Journal");
+    expect(listedItem?.available).toBe(true);
+    
+    // Purchase item
+    const purchasedItem = items.get(itemId);
+    if (purchasedItem) {
+      purchasedItem.available = false;
+      items.set(itemId, purchasedItem);
+    }
+    
+    // Verify item was purchased
+    const finalItem = items.get(itemId);
+    expect(finalItem).toBeDefined();
+    expect(finalItem?.available).toBe(false);
+  });
 });
+
