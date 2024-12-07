@@ -9,3 +9,5 @@ J
 contracts/lucid-token.clar,b/2/b252fd42245293d24c1725e3e2a32093d6922ac4
 J
 contracts/marketplace.clar,e/2/e2a45a6789a1d0483fc133fffb49ff482a2e137b
+J
+contracts/peer-review.clar,3/f/3fbff5bcca5f761a6bcd1d3c6652e581337d18f6
